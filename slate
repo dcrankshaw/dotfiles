@@ -1,0 +1,171 @@
+# TODO
+#   + create a layout that makes MacVim the right 2/3 of the screen and
+#     Chrome the left one third
+#
+#
+#
+#
+#
+#
+# Configs
+config defaultToCurrentScreen true
+config repeatOnHoldOps resize,nudge
+config secondsBeforeRepeat 0.3
+config secondsBetweenRepeat 0.1
+config checkDefaultsOnLoad true
+config orderScreensLeftToRight true
+config keyboardLayout qwerty
+config nudgePercentOf screenSize
+config resizePercentOf screenSize
+
+alias mon-laptop 0
+alias mon-external 1
+alias browser 'Google Chrome'
+alias editor 'MacVim'
+alias chat 'Adium'
+alias notes 'Evernote'
+alias term 'iTerm'
+alias mail 'Mailplane 3'
+alias citations 'Papers 3.2.7'
+
+# Abstract positions
+alias full          move screenOriginX;screenOriginY                  screenSizeX;screenSizeY
+alias lefthalf      move screenOriginX;screenOriginY                  screenSizeX/2;screenSizeY
+alias righthalf     move screenOriginX+screenSizeX/2;screenOriginY    screenSizeX/2;screenSizeY
+alias rightmost     move screenOriginX+screenSizeX*0.4;screenOriginY  screenSizeX*0.6;screenSizeY
+alias rightless     move screenOriginX+screenSizeX*0.6;screenOriginY  screenSizeX*0.4;screenSizeY
+alias leftmost      move screenOriginX;screenOriginY                  screenSizeX*0.6;screenSizeY
+alias leftless      move screenOriginX;screenOriginY                  screenSizeX*0.4;screenSizeY
+
+alias quad1         move screenOriginX+screenSizeX/2;screenOriginY    screenSizeX/2;screenSizeY/2
+alias quad2         move screenOriginX;screenOriginY                  screenSizeX/2;screenSizeY/2
+alias quad3         move screenOriginX;screenOriginY+screenSizeY/2    screenSizeX/2;screenSizeY/2
+alias quad4         move screenOriginX+screenSizeX/2;screenOriginY+screenSizeY/2    screenSizeX/2;screenSizeY/2
+
+alias leftthird     move screenOriginX;screenOriginY                  screenSizeX/3;screenSizeY
+alias leftthirdtop     move screenOriginX;screenOriginY                  screenSizeX/3;.8*screenSizeY
+alias middlethird   move screenOriginX+screenSizeX/3;screenOriginY    screenSizeX/3;screenSizeY
+alias rightthird    move screenOriginX+2*screenSizeX/3;screenOriginY  screenSizeX/3;screenSizeY
+alias lefttwothirds move screenOriginX;screenOriginY                  2*screenSizeX/3;screenSizeY
+alias righttwothirds move screenOriginX+screenSizeX/3;screenOriginY   2*screenSizeX/3;screenSizeY
+
+alias tophalf       move screenOriginX;screenOriginY                  screenSizeX;screenSizeY/2
+alias bottomhalf    move screenOriginX;screenOriginY+screenSizeY/2    screenSizeX;screenSizeY/2
+
+alias increase10right resize +10% +0 top-left
+alias decrease10right resize -10% +0 top-left
+alias increase10left resize +10% +0 top-right
+alias decrease10left resize -10% +0 top-right
+
+######################
+
+alias showNormalHint hint QWERTYPOIU
+
+# Concrete positions
+#alias 1-full        move screenOriginX;screenOriginY screenSizeX;screenSizeY         ${mon-laptop}
+#alias 1-left        move screenOriginX;screenOriginY screenSizeX/2;screenSizeY         ${mon-laptop}
+#alias 1-right       move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY         ${mon-laptop}
+#alias 2-left        move screenOriginX;screenOriginY screenSizeX/2;screenSizeY         ${mon-samsung}
+#alias 2-right       move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY         ${mon-samsung}
+#alias 2-righttop    move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY/2       ${mon-samsung}
+#alias 2-rightbottom move screenOriginX+screenSizeX/2;screenOriginY+screenSizeY/2    screenSizeX/2;screenSizeY/2       ${mon-samsung}
+
+
+
+# Numpad location Bindings
+#bind pad0 ${showHintsLeftHand}
+#bind pad1 ${leftless}
+#bind pad2 push bottom bar-resize:screenSizeY/2
+#bind pad3 ${rightless}
+#bind pad4 ${lefthalf}
+#bind pad5 ${full}
+#bind pad6 ${righthalf}
+#bind pad7 ${leftmost}
+#bind pad8 push top bar-resize:screenSizeY/2
+#bind pad9 ${rightmost}
+#bind padEnter grid padding:5 ${mon-laptop}:6,2 ${mon-samsung}:8,3
+#bind pad+ throw next
+#bind pad. focus behind
+#bind pad* layout 2monitors
+#bind pad/ layout 1monitor
+#
+# bind e:cmd  ${showNormalHint}
+
+# ======================================
+# The HYPER key
+# ======================================
+
+alias hyper ctrl;shift;alt;cmd
+
+bind 1:${hyper} ${quad2}
+bind 2:${hyper} ${quad1}
+bind 3:${hyper} ${quad3}
+bind 4:${hyper} ${quad4}
+
+bind 8:${hyper} ${leftthird}
+bind 5:${hyper} ${leftthirdtop}
+bind 9:${hyper} ${middlethird}
+bind 0:${hyper} ${rightthird}
+bind 6:${hyper} ${lefttwothirds}
+bind 7:${hyper} ${righttwothirds}
+
+# Location bindings
+# bind left:${hyper} ${lefthalf}
+bind up:${hyper} ${tophalf}
+# bind right:${hyper} ${righthalf}
+bind down:${hyper} ${bottomhalf}
+
+
+bind -:${hyper} ${lefthalf}
+bind =:${hyper} ${righthalf}
+
+bind f:${hyper} ${full}
+bind space:${hyper} hide current
+
+# Resize Bindings
+bind i:${hyper} ${leftmost}
+bind o:${hyper} ${rightmost}
+
+# Focus Bindings
+# bind l:${hyper}    focus right
+# bind h:${hyper}     focus left
+# bind k:${hyper}       focus up
+#
+## App bindings
+bind c:${hyper} focus ${browser}
+bind a:${hyper} focus ${chat}
+bind e:${hyper} focus 'Evernote'
+bind m:${hyper} focus 'Mailplane 3'
+bind z:${hyper} focus ${citations}
+bind v:${hyper} focus ${editor}
+bind t:${hyper} focus 'iTerm'
+bind q:${hyper} focus 'Preview'
+bind p:${hyper} focus 'Keynote'
+# bind s:${hyper} focus 'Sublime Text 2'
+bind j:${hyper} focus 'IntelliJ IDEA'
+bind d:${hyper} focus 'Dash'
+bind l:${hyper} focus 'Sunrise'
+bind s:${hyper} focus 'Radiant Player'
+bind u:${hyper} focus 'VMware Fusion'
+bind g:${hyper} focus 'OmniGraffle Professional'
+
+
+# bind ':${hyper} throw 1 resize
+# bind ;:${hyper} throw 0 resize
+bind ':${hyper} sequence throw 1 | ${lefthalf}
+bind ;:${hyper} sequence throw 0 | ${full}
+
+# bind p:${hyper} ${decrease10right}
+# bind [:${hyper} ${increase10right}
+# bind ]:${hyper} ${increase10left}
+# bind backslash:${hyper} ${decrease10left}
+
+
+
+
+
+
+bind 1:ctrl relaunch
+
+
+
