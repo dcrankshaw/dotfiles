@@ -56,6 +56,13 @@ set mousehide  " Hide mouse after chars typed
 set splitbelow
 set splitright
 set guifont=Inconsolata:h12
+" set guifont=Inconsolata\ for\ Powerline:h12
+" let g:Powerline_symbols = 'fancy'
+set encoding=utf-8
+set t_Co=256
+set fillchars+=stl:\ ,stlnc:\
+" set term=xterm-256color
+" set termencoding=utf-8
  
 
  " Automatically change the working directory to the current one
@@ -141,6 +148,11 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 map <leader>= <C-W>=
 
+" copy filename
+map <silent> <leader>. :let @+=expand('%:p').':'.line('.')<CR>
+map <silent> <leader>/ :let @+=expand('%:p:h')<CR>
+" copy path
+
 " Vundle
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -165,11 +177,15 @@ let g:syntastic_mode_map = { 'mode': 'active','active_filetypes': [], 'passive_f
 Plugin 'altercation/vim-colors-solarized'
 
 Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Shougo/neocomplcache'
+Plugin 'Shougo/neocomplete.vim'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'corntrace/bufexplorer'
 Plugin 'vim-scripts/xptemplate'
 Plugin 'derekwyatt/vim-scala'
+" Syntax highlight
+Plugin 'gmarik/vim-markdown'
+Plugin 'timcharper/textile.vim'
+
 Plugin 'L9'
 Plugin 'LustyJuggler'
 Plugin '29decibel/codeschool-vim-theme'
@@ -205,7 +221,7 @@ Plugin 'tomtom/tcomment_vim'
 nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>
 
-Plugin 'Mark--Karkat'
+" Plugin 'Mark--Karkat'
 
 Plugin 'solarnz/thrift.vim'
 
@@ -217,6 +233,8 @@ au FileType go nmap <Leader>ds <Plug>(go-def-split)
 au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 
+Plugin 'bling/vim-airline'
+
 " Command-T
 " Plugin "git://git.wincent.com/command-t.git"
 " let g:CommandTMatchWindowAtTop=1 " show window at top
@@ -226,9 +244,21 @@ call vundle#end()
 
 call tcomment#DefineType('java',             '// %s '         )
 
+
 syntax enable
 set background=dark
 colorscheme solarized
+let g:airline_section_a = airline#section#create(['%<', 'file', 'readonly'])
+let g:airline_section_b =  airline#section#create_left(['mode', 'paste', 'iminsert'])
+let g:airline_section_c = '' " airline#section#create(['hunks'])
+let g:airline_section_gutter = airline#section#create(['%=%y%m%r[%{&ff}]'])
+let g:airline_section_x = '' " airline#section#create_right(['filetype'])
+let g:airline_section_y = '%y%m%r%=[%{&ff}]' "airline#section#create_right(['ffenc'])
+let g:airline_section_z = airline#section#create(['%(%l,%c%V%) %P'])
+let g:airline_section_warning = '' "airline#section#create(['whitespace'])
+" let g:airline_powerline_fonts = 1
+" let g:airline_theme='bubblegum'
+let g:airline#extensions#tabline#enabled = 1
 
 filetype plugin indent on
 

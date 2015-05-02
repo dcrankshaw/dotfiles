@@ -145,9 +145,10 @@ bind p:${hyper} focus 'Keynote'
 bind j:${hyper} focus 'IntelliJ IDEA'
 bind d:${hyper} focus 'Dash'
 bind l:${hyper} focus 'Sunrise'
-bind s:${hyper} focus 'Radiant Player'
+# bind s:${hyper} focus 'Radiant Player'
 bind u:${hyper} focus 'VMware Fusion'
 bind g:${hyper} focus 'OmniGraffle Professional'
+bind s:${hyper} focus 'Slack'
 
 
 # bind ':${hyper} throw 1 resize
