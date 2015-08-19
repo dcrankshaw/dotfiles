@@ -20,6 +20,7 @@ alias svim=/usr/bin/vim
 alias ct="ctags -R --exclude=target --exclude=vendor -f ./.git/tags ."
 alias alog='git log --date-order --all --graph --date=short --format="%C(green)%h%Creset %C(yellow)%an%Creset %C(blue bold)%ad%Creset %C(red bold)%d%Creset%s"'
 alias hlog='git log --date-order --graph --date=short --format="%C(green)%h%Creset %C(yellow)%an%Creset %C(blue bold)%ad%Creset %C(red bold)%d%Creset%s"'
+alias gs='git status'
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -99,6 +100,7 @@ export SBT_OPTS="-Xmx2G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -X
 export MAVEN_OPTS="-Xmx4g -XX:MaxPermSize=4000M -XX:ReservedCodeCacheSize=512m"
 export SPARK_HOME="$HOME/code/amplab/spark"
 export PYSPARK_SUBMIT_ARGS="--master local[2]"
+export VELOX_CLUSTER_KEY=~/.ssh/aws_rsa
 
 # function title {
 #     echo -ne "\033]0;"$*"\007"

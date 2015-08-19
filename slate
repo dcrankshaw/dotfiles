@@ -144,7 +144,8 @@ bind p:${hyper} focus 'Keynote'
 # bind s:${hyper} focus 'Sublime Text 2'
 bind j:${hyper} focus 'IntelliJ IDEA'
 bind d:${hyper} focus 'Dash'
-bind l:${hyper} focus 'Sunrise'
+# bind l:${hyper} focus 'Sunrise'
+bind l:${hyper} focus 'Calendar'
 # bind s:${hyper} focus 'Radiant Player'
 bind u:${hyper} focus 'VMware Fusion'
 bind g:${hyper} focus 'OmniGraffle Professional'
@@ -153,8 +154,8 @@ bind s:${hyper} focus 'Slack'
 
 # bind ':${hyper} throw 1 resize
 # bind ;:${hyper} throw 0 resize
-bind ':${hyper} sequence throw 1 | ${lefthalf}
-bind ;:${hyper} sequence throw 0 | ${full}
+bind ':${hyper} sequence throw 1 | ${full}
+bind ;:${hyper} sequence throw 0 | ${lefthalf}
 
 # bind p:${hyper} ${decrease10right}
 # bind [:${hyper} ${increase10right}

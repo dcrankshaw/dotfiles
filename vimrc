@@ -139,6 +139,8 @@ inoremap <C-S> <C-O>:update<CR>
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 nnoremap <leader>w <C-w>v<C-w>l
 nnoremap <leader>nh :noh<CR>
+nnoremap <leader>o o<ESC>k
+nnoremap <leader>O O<ESC>j
 
 
 " Move between windows
@@ -183,7 +185,7 @@ Plugin 'corntrace/bufexplorer'
 Plugin 'vim-scripts/xptemplate'
 Plugin 'derekwyatt/vim-scala'
 " Syntax highlight
-Plugin 'gmarik/vim-markdown'
+" Plugin 'gmarik/vim-markdown'
 Plugin 'timcharper/textile.vim'
 
 Plugin 'L9'
@@ -234,6 +236,7 @@ au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 
 Plugin 'bling/vim-airline'
+Plugin 'cespare/vim-toml'
 
 " Command-T
 " Plugin "git://git.wincent.com/command-t.git"
