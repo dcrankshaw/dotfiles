@@ -106,16 +106,18 @@ function fullScreen()
 end
 
 function throwRight()
-  local cur_screen = hs.screen.mainScreen()
-  local next_screen = cur_screen:next()
+  -- local cur_screen = hs.screen.primaryScreen()
+  -- local next_screen = cur_screen:next()
+  local next_screen = hs.screen.allScreens()[2]
   local win = hs.window.focusedWindow()
   win:moveToScreen(next_screen)
   leftHalf()
 end
 
 function throwLeft()
-  local cur_screen = hs.screen.mainScreen()
-  local prev_screen = cur_screen:previous()
+  -- local cur_screen = hs.screen.mainScreen()
+  -- local prev_screen = cur_screen:previous()
+  local prev_screen = hs.screen.allScreens()[1]
   local win = hs.window.focusedWindow()
   win:moveToScreen(prev_screen)
   rightHalf()
@@ -143,6 +145,7 @@ function reloadConfig(files)
         hs.reload()
     end
 end
-local myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+
+local myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/config/dotfiles/hammerspoon/", reloadConfig):start()
 hs.alert.show("Config loaded")
 
