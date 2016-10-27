@@ -40,7 +40,7 @@ set tags=tags;~/code
 set novisualbell
 set noerrorbells
 set t_vb=
-autocmd GUIEnter * set visualbell t_vb=
+autocmd GUIEnter * set vb t_vb=
 set shortmess=atI
 set nolist " Display unprintable characters f12 - switches
 set listchars=tab:·\ ,eol:¶,trail:·,extends:»,precedes:« " Unprintable chars mapping
@@ -55,7 +55,7 @@ set mousehide  " Hide mouse after chars typed
 
 set splitbelow
 set splitright
-set guifont=Inconsolata:h12
+set guifont=Inconsolata:h18
 " set guifont=Inconsolata\ for\ Powerline:h12
 " let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
@@ -100,11 +100,19 @@ au BufRead,BufNewFile *.tex nnoremap k gk
 au BufRead,BufNewFile *.tex vnoremap j gj
 au BufRead,BufNewFile *.tex vnoremap k gk
 
+function! TexFormatExpr(start, end)
+    silent execute a:start.','.a:end.'s/[.!?]\zs /\r/g'
+endfunction
+
+au BufRead,BufNewFile *.tex set formatexpr=TexFormatExpr(v:lnum,v:lnum+v:count-1)
+
 au BufRead,BufNewFile *.md set wrap linebreak nolist textwidth=0 wrapmargin=0
 au BufRead,BufNewFile *.md nnoremap j gj
 au BufRead,BufNewFile *.md nnoremap k gk
 au BufRead,BufNewFile *.md vnoremap j gj
 au BufRead,BufNewFile *.md vnoremap k gk
+
+" au BufNewFile,BufRead *.py set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
 
 " Key mappings " {{{
 " nnoremap <silent> <leader>rs :source ~/.vimrc<CR>
@@ -147,13 +155,16 @@ nnoremap <leader>O O<ESC>j
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
+map <leader>h <C-W>h
 map <C-l> <C-W>l
 map <leader>= <C-W>=
+
 
 " copy filename
 map <silent> <leader>. :let @+=expand('%:p').':'.line('.')<CR>
 map <silent> <leader>/ :let @+=expand('%:p:h')<CR>
 " copy path
+
 
 " Vundle
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -164,10 +175,12 @@ Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-sleuth'
 " Plugin 'Valloric/YouCompleteMe' " Couldn't get to work
+" let g:ycm_server_keep_logfiles = 1
+" let g:ycm_server_log_level = 'debug'
 Plugin 'kien/ctrlp.vim'
 let g:ctrlp_max_files = 0
 " map <leader>mr :CtrlPMRUFiles<CR>
-set wildignore+=*.class,*.swp,*/target/*,*/assembly/*,*.backup,*.html,*.pyc
+set wildignore+=*.class,*/target/*,*.swp,*/assembly/*,*/data/*,*.backup,*.html,*.pyc,*.data,*.train,*.test,*.pdf,*.tar,*.tgz
 " let g:ctrlp_custom_ignore = '*.html'
 
 Plugin 'scrooloose/nerdtree'
@@ -177,6 +190,7 @@ Plugin 'scrooloose/syntastic'
 let g:syntastic_scala_checkers=['scalac']
 let g:syntastic_mode_map = { 'mode': 'active','active_filetypes': [], 'passive_filetypes': ['scala', 'java'] }
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'jnurmine/Zenburn'
 
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Shougo/neocomplete.vim'
@@ -186,7 +200,16 @@ Plugin 'vim-scripts/xptemplate'
 Plugin 'derekwyatt/vim-scala'
 " Syntax highlight
 " Plugin 'gmarik/vim-markdown'
-Plugin 'timcharper/textile.vim'
+" Plugin 'timcharper/textile.vim'
+Plugin 'junegunn/goyo.vim'
+let g:goyo_width=90
+let g:goyo_height='95%'
+let g:goyo_linenr=0
+map <C-g> :Goyo<CR>
+
+" Python PEP8 checking
+Plugin 'nvie/vim-flake8'
+
 
 Plugin 'L9'
 Plugin 'LustyJuggler'
@@ -205,6 +228,11 @@ Plugin 'scratch.vim'
 Plugin 'ZoomWin'
 Plugin 'TeX-PDF'
 Plugin 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+Plugin 'racer-rust/vim-racer'
+let g:racer_cmd = "/Users/crankshaw/.cargo/bin/racer"
+let $RUST_SRC_PATH="/usr/local/src/rustc-1.8.0/src"
+
 " noremap <leader>o :ZoomWin<CR>
 vnoremap <leader>o <C-C>:ZoomWin<CR>
 inoremap <leader>o <C-O>:ZoomWin<CR>
@@ -214,7 +242,9 @@ Plugin 'Align'
 Plugin 'SuperTab'
 Plugin 'repeat.vim'
 Plugin 'surround.vim'
+Plugin 'kshenoy/vim-signature'
 " Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex'
+Plugin 'lervag/vimtex'
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 
@@ -238,6 +268,8 @@ au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 Plugin 'bling/vim-airline'
 Plugin 'cespare/vim-toml'
 
+Plugin 'cstrahan/vim-capnp'
+
 " Command-T
 " Plugin "git://git.wincent.com/command-t.git"
 " let g:CommandTMatchWindowAtTop=1 " show window at top
@@ -246,16 +278,19 @@ Plugin 'cespare/vim-toml'
 call vundle#end()
 
 call tcomment#DefineType('java',             '// %s '         )
+call tcomment#DefineType('capnp',             '# %s '         )
 
 
 syntax enable
 set background=dark
 colorscheme solarized
+" colorscheme zenburn
+let g:solarized_constrast = "high"
 let g:airline_section_a = airline#section#create(['%<', 'file', 'readonly'])
 let g:airline_section_b =  airline#section#create_left(['mode', 'paste', 'iminsert'])
 let g:airline_section_c = '' " airline#section#create(['hunks'])
 let g:airline_section_gutter = airline#section#create(['%=%y%m%r[%{&ff}]'])
-let g:airline_section_x = '' " airline#section#create_right(['filetype'])
+let g:airline_section_x =  airline#section#create_right(['filetype'])
 let g:airline_section_y = '%y%m%r%=[%{&ff}]' "airline#section#create_right(['ffenc'])
 let g:airline_section_z = airline#section#create(['%(%l,%c%V%) %P'])
 let g:airline_section_warning = '' "airline#section#create(['whitespace'])

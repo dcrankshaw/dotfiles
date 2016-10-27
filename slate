@@ -24,9 +24,9 @@ alias browser 'Google Chrome'
 alias editor 'MacVim'
 alias chat 'Adium'
 alias notes 'Evernote'
-alias term 'iTerm'
+alias term 'iTerm2'
 alias mail 'Mailplane 3'
-alias citations 'Papers 3.2.7'
+alias citations 'Papers 3.4.0'
 
 # Abstract positions
 alias full          move screenOriginX;screenOriginY                  screenSizeX;screenSizeY
@@ -46,8 +46,8 @@ alias leftthird     move screenOriginX;screenOriginY                  screenSize
 alias leftthirdtop     move screenOriginX;screenOriginY                  screenSizeX/3;.8*screenSizeY
 alias middlethird   move screenOriginX+screenSizeX/3;screenOriginY    screenSizeX/3;screenSizeY
 alias rightthird    move screenOriginX+2*screenSizeX/3;screenOriginY  screenSizeX/3;screenSizeY
-alias lefttwothirds move screenOriginX;screenOriginY                  2*screenSizeX/3;screenSizeY
-alias righttwothirds move screenOriginX+screenSizeX/3;screenOriginY   2*screenSizeX/3;screenSizeY
+alias lefteighty move screenOriginX;screenOriginY                  4*screenSizeX/5;screenSizeY
+alias righteighty move screenOriginX+screenSizeX/5;screenOriginY   4*screenSizeX/5;screenSizeY
 
 alias tophalf       move screenOriginX;screenOriginY                  screenSizeX;screenSizeY/2
 alias bottomhalf    move screenOriginX;screenOriginY+screenSizeY/2    screenSizeX;screenSizeY/2
@@ -95,7 +95,8 @@ alias showNormalHint hint QWERTYPOIU
 # The HYPER key
 # ======================================
 
-alias hyper ctrl;shift;alt;cmd
+# alias hyper ctrl;shift;alt;cmd
+alias hyper f19
 
 bind 1:${hyper} ${quad2}
 bind 2:${hyper} ${quad1}
@@ -106,8 +107,8 @@ bind 8:${hyper} ${leftthird}
 bind 5:${hyper} ${leftthirdtop}
 bind 9:${hyper} ${middlethird}
 bind 0:${hyper} ${rightthird}
-bind 6:${hyper} ${lefttwothirds}
-bind 7:${hyper} ${righttwothirds}
+bind 6:${hyper} ${lefteighty}
+bind 7:${hyper} ${righteighty}
 
 # Location bindings
 # bind left:${hyper} ${lefthalf}
@@ -125,6 +126,8 @@ bind space:${hyper} hide current
 # Resize Bindings
 bind i:${hyper} ${leftmost}
 bind o:${hyper} ${rightmost}
+bind y:${hyper} ${leftless}
+bind u:${hyper} ${rightless}
 
 # Focus Bindings
 # bind l:${hyper}    focus right
@@ -138,24 +141,27 @@ bind e:${hyper} focus 'Evernote'
 bind m:${hyper} focus 'Mailplane 3'
 bind z:${hyper} focus ${citations}
 bind v:${hyper} focus ${editor}
-bind t:${hyper} focus 'iTerm'
+bind t:${hyper} focus ${term}
 bind q:${hyper} focus 'Preview'
-bind p:${hyper} focus 'Keynote'
+# bind p:${hyper} focus 'Keynote'
+bind p:${hyper} focus 'Microsoft PowerPoint'
 # bind s:${hyper} focus 'Sublime Text 2'
 bind j:${hyper} focus 'IntelliJ IDEA'
-bind d:${hyper} focus 'Dash'
+bind d:${hyper} focus 'Google Play Music Desktop Player'
 # bind l:${hyper} focus 'Sunrise'
 bind l:${hyper} focus 'Calendar'
 # bind s:${hyper} focus 'Radiant Player'
-bind u:${hyper} focus 'VMware Fusion'
+# bind u:${hyper} focus 'VMware Fusion'
 bind g:${hyper} focus 'OmniGraffle Professional'
 bind s:${hyper} focus 'Slack'
+bind n:${hyper} focus 'MacDown'
+
 
 
 # bind ':${hyper} throw 1 resize
 # bind ;:${hyper} throw 0 resize
-bind ':${hyper} sequence throw 1 | ${full}
-bind ;:${hyper} sequence throw 0 | ${lefthalf}
+bind ':${hyper} sequence throw 1 | ${lefthalf}
+bind ;:${hyper} sequence throw 0 | ${righthalf}
 
 # bind p:${hyper} ${decrease10right}
 # bind [:${hyper} ${increase10right}
