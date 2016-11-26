@@ -55,7 +55,7 @@ set mousehide  " Hide mouse after chars typed
 
 set splitbelow
 set splitright
-set guifont=Inconsolata:h18
+set guifont=Inconsolata:h16
 " set guifont=Inconsolata\ for\ Powerline:h12
 " let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
@@ -174,26 +174,47 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-sleuth'
-" Plugin 'Valloric/YouCompleteMe' " Couldn't get to work
-" let g:ycm_server_keep_logfiles = 1
-" let g:ycm_server_log_level = 'debug'
-Plugin 'kien/ctrlp.vim'
+
+" Plugin 'scrooloose/syntastic'
+" let g:syntastic_scala_checkers=['scalac']
+" let g:syntastic_mode_map = { 'mode': 'active','active_filetypes': [], 'passive_filetypes': ['scala', 'java'] }
+" let g:syntastic_cpp_compiler = 'clang++'
+" let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
+
+Plugin 'Valloric/YouCompleteMe'
+let g:ycm_extra_conf_globlist = [ '/Users/crankshaw/Dropbox/berkeley/amplab/clipper-cpp/*' ]
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
+let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_always_populate_location_list = 1
+nnoremap <C-]> :YcmCompleter GoTo<CR>
+
+Plugin 'Valloric/ListToggle'
+
+Plugin 'jeaye/color_coded'
+
+Plugin 'rdnetto/YCM-Generator'
+" Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_max_files = 0
 " map <leader>mr :CtrlPMRUFiles<CR>
-set wildignore+=*.class,*/target/*,*.swp,*/assembly/*,*/data/*,*.backup,*.html,*.pyc,*.data,*.train,*.test,*.pdf,*.tar,*.tgz
-" let g:ctrlp_custom_ignore = '*.html'
+set wildignore+=*.class,*/target/*,*.swp,*/assembly/*,*/data/*,*.backup,*.html,
+    \*.pyc,*.data,*.train,*.test,*.pdf,*.tar,*.tgz,*/CMakeFiles/*,*/debug/googletest-src/*,
+    \*/release/googletest-src/*
+" let g:ctrlp_custom_ignore = '/Users/crankshaw/clipper-cpp/debug,/Users/crankshaw/clipper-cpp/release'
 
 Plugin 'scrooloose/nerdtree'
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
-Plugin 'scrooloose/syntastic'
-let g:syntastic_scala_checkers=['scalac']
-let g:syntastic_mode_map = { 'mode': 'active','active_filetypes': [], 'passive_filetypes': ['scala', 'java'] }
+
+"
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'jnurmine/Zenburn'
 
 Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Shougo/neocomplete.vim'
+" Plugin 'Shougo/neocomplete.vim'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'corntrace/bufexplorer'
 Plugin 'vim-scripts/xptemplate'
@@ -201,6 +222,8 @@ Plugin 'derekwyatt/vim-scala'
 " Syntax highlight
 " Plugin 'gmarik/vim-markdown'
 " Plugin 'timcharper/textile.vim'
+
+" Distraction free writing
 Plugin 'junegunn/goyo.vim'
 let g:goyo_width=90
 let g:goyo_height='95%'
@@ -212,12 +235,12 @@ Plugin 'nvie/vim-flake8'
 
 
 Plugin 'L9'
-Plugin 'LustyJuggler'
-Plugin '29decibel/codeschool-vim-theme'
+" Plugin 'LustyJuggler'
+" Plugin '29decibel/codeschool-vim-theme'
 Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
-" let g:easytags_async=1
-let g:easytags_async=0
+" Plugin 'xolox/vim-easytags'
+" " let g:easytags_async=1
+" let g:easytags_async=0
 
 Plugin 'FuzzyFinder'
 Plugin 'tpope/vim-fugitive'
@@ -225,21 +248,21 @@ Plugin 'git.zip'
 " Plugin 'majutsushi/tagbar'
 " nnoremap <silent> <Leader>b :TagbarToggle<CR>
 Plugin 'scratch.vim'
-Plugin 'ZoomWin'
 Plugin 'TeX-PDF'
 Plugin 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
 Plugin 'racer-rust/vim-racer'
 let g:racer_cmd = "/Users/crankshaw/.cargo/bin/racer"
-let $RUST_SRC_PATH="/usr/local/src/rustc-1.8.0/src"
+" let $RUST_SRC_PATH="/usr/local/src/rustc-1.8.0/src"
 
+" Plugin 'ZoomWin'
 " noremap <leader>o :ZoomWin<CR>
-vnoremap <leader>o <C-C>:ZoomWin<CR>
-inoremap <leader>o <C-O>:ZoomWin<CR>
-noremap <C-W>+o :ZoomWin<CR>
+" vnoremap <leader>o <C-C>:ZoomWin<CR>
+" inoremap <leader>o <C-O>:ZoomWin<CR>
+" noremap <C-W>+o :ZoomWin<CR>
  
 Plugin 'Align'
-Plugin 'SuperTab'
+" Plugin 'SuperTab'
 Plugin 'repeat.vim'
 Plugin 'surround.vim'
 Plugin 'kshenoy/vim-signature'
@@ -255,20 +278,33 @@ vnoremap // :TComment<CR>
 
 " Plugin 'Mark--Karkat'
 
-Plugin 'solarnz/thrift.vim'
+" Plugin 'solarnz/thrift.vim'
 
-Plugin 'fatih/vim-go'
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+" Plugin 'fatih/vim-go'
+" au FileType go nmap <Leader>gd <Plug>(go-doc)
+" au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+" au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+" au FileType go nmap <Leader>ds <Plug>(go-def-split)
+" au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+" au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 
 Plugin 'bling/vim-airline'
 Plugin 'cespare/vim-toml'
+Plugin 'rhysd/vim-clang-format'
+let g:clang_format#code_style = "google"
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++14"}
+let g:clang_format#detect_style_file = 1
+let g:clang_format#auto_format = 1
+let g:clang_format#auto_formatexpr = 1
 
-Plugin 'cstrahan/vim-capnp'
+
+
+
+" Plugin 'cstrahan/vim-capnp'
 
 " Command-T
 " Plugin "git://git.wincent.com/command-t.git"
@@ -278,7 +314,7 @@ Plugin 'cstrahan/vim-capnp'
 call vundle#end()
 
 call tcomment#DefineType('java',             '// %s '         )
-call tcomment#DefineType('capnp',             '# %s '         )
+" call tcomment#DefineType('capnp',             '# %s '         )
 
 
 syntax enable

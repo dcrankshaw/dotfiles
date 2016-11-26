@@ -9,12 +9,13 @@ singleapps = {
   {'e', 'Evernote'},
   {'t', 'iTerm2'},
   {'s', 'Slack'},
-  {'n', 'MacDown'},
+  {'n', 'Marked'},
   {'l', 'Calendar'},
   {'d', 'Google Play Music Desktop Player'},
   {'p', 'Microsoft PowerPoint'},
   {'q', 'Preview'},
   {'c', 'Google Chrome'},
+  {'i', 'Xcode'},
 }
 
 focus = function(appname)
@@ -57,7 +58,7 @@ end
 -- Bind the Hyper key
 f18 = hs.hotkey.bind({}, 'F18', pressedHyper, releasedHyper)
 
-hs.hotkey.bind({"ctrl", "shift"}, 'l', hs.caffeinate.startScreensaver)
+hs.hotkey.bind({"cmd", "shift"}, 'l', hs.caffeinate.startScreensaver)
 
 ------------------------------------
 -- Window management
@@ -78,6 +79,32 @@ function leftHalf()
   win:setFrame(f)
 end
 
+function leftThird()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w / 3
+  f.h = max.h
+  win:setFrame(f)
+end
+
+function leftTwoThirds()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w * 2 / 3 
+  f.h = max.h
+  win:setFrame(f)
+end
+
 function rightHalf()
   local win = hs.window.focusedWindow()
   local f = win:frame()
@@ -87,6 +114,32 @@ function rightHalf()
   f.x = max.x + (max.w / 2)
   f.y = max.y
   f.w = max.w / 2
+  f.h = max.h
+  win:setFrame(f)
+end
+
+function rightThird()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x + (max.w * 2 / 3)
+  f.y = max.y
+  f.w = max.w / 3
+  f.h = max.h
+  win:setFrame(f)
+end
+
+function rightTwoThirds()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x + (max.w / 3)
+  f.y = max.y
+  f.w = max.w * 2 / 3
   f.h = max.h
   win:setFrame(f)
 end
@@ -125,14 +178,64 @@ end
 
 k:bind({}, '-', leftHalf)
 k:bind({}, '=', rightHalf)
+k:bind({}, '9', leftTwoThirds)
+k:bind({}, '0', rightTwoThirds)
+k:bind({}, '7', leftThird)
+k:bind({}, '8', rightThird)
+k:bind({}, '=', rightHalf)
 k:bind({}, 'f', fullScreen)
 k:bind({}, "'", throwRight)
 k:bind({}, ";", throwLeft)
+
+-----------------------------------------------
+-- Hyper i to show window hints
+-----------------------------------------------
+
+-- k:bind({}, 'i', function() hs.hints.windowHints(); k:exit() end)
+hs.hotkey.bind({'cmd', 'shift'}, 'i', hs.hints.windowHints)
+
+-- hs.hotkey.bind(hyper, "i", function()
+--     hs.hints.windowHints()
+-- end)
+
+-- -----------------------------------------------
+-- -- Hyper hjkl to switch window focus
+-- -----------------------------------------------
+--
+-- hs.hotkey.bind(hyper, 'k', function()
+--     hs.window.focusedWindow():focusWindowNorth()
+-- end)
+--
+-- hs.hotkey.bind(hyper, 'j', function()
+--     hs.window.focusedWindow():focusWindowSouth()
+-- end)
+--
+-- hs.hotkey.bind(hyper, 'l', function()
+--     hs.window.focusedWindow():focusWindowEast()
+-- end)
+--
+-- hs.hotkey.bind(hyper, 'h', function()
+--     hs.window.focusedWindow():focusWindowWest()
+-- end)
 
 -------------------------------------------
 
 -- Defeat paste-blocking
 hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
+
+
+-------------------------------------------------
+-- FOR DEBUGGING: prints out every key tap event
+-- tap = hs.eventtap.new({hs.eventtap.event.types.keyDown}, function(event)
+--   print(hs.inspect(event:getRawEventData()))
+-- end)
+-- tap:start()
+-------------------------------------------------
+
+-------------------------------------------
+-- Reload config on writes
+-------------------------------------------
+
 
 function reloadConfig(files)
     doReload = false
@@ -146,6 +249,11 @@ function reloadConfig(files)
     end
 end
 
-local myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/config/dotfiles/hammerspoon/", reloadConfig):start()
+hs.hotkey.bind({'ctrl', 'shift'}, '1', hs.reload)
+
+
+local myWatcher1 = hs.pathwatcher.new(os.getenv("HOME") .. "/config/dotfiles/hammerspoon/", reloadConfig):start()
+local myWatcher2 = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+
 hs.alert.show("Config loaded")
 
