@@ -29,6 +29,7 @@ set softtabstop=2               " Make tabs act like spaces for editing ops
 set showmode                    " Show the mode you're currently in
 set showmatch                   " Show matching braces / brackets
 set matchtime=5
+set matchpairs+=<:> 
 set number                      " Set line numbers
 set title                       " Let vim change my tab/window title
 set laststatus=2                " Always display the last status
@@ -61,6 +62,7 @@ set guifont=Inconsolata:h16
 set encoding=utf-8
 set t_Co=256
 set fillchars+=stl:\ ,stlnc:\
+set completeopt=menu
 " set term=xterm-256color
 " set termencoding=utf-8
  
@@ -122,6 +124,8 @@ nnoremap <silent> <leader>rt :tabnew $MYVIMRC<CR>
 nnoremap <silent> <leader>re :e $MYVIMRC<CR>
 nnoremap <silent> <leader>rd :e ~/.vim/ <CR>
 
+nnoremap <silent> <leader>rc :e ~/.ssh/config <CR>
+
 " Tabs 
 nnoremap <silent> <leader>[ :tabprev<CR>
 nnoremap <silent> <leader>] :tabnext<CR>
@@ -182,7 +186,8 @@ Plugin 'tpope/vim-sleuth'
 " let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
 
 Plugin 'Valloric/YouCompleteMe'
-let g:ycm_extra_conf_globlist = [ '/Users/crankshaw/Dropbox/berkeley/amplab/clipper-cpp/*' ]
+" let g:loaded_youcompleteme = 1
+let g:ycm_extra_conf_globlist = [ '/Users/crankshaw/Dropbox/berkeley/riselab/clipper-project/*']
 let g:ycm_server_keep_logfiles = 1
 let g:ycm_server_log_level = 'debug'
 let g:ycm_path_to_python_interpreter = '/usr/bin/python'
@@ -190,19 +195,20 @@ let g:ycm_enable_diagnostic_signs = 1
 let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_always_populate_location_list = 1
 nnoremap <C-]> :YcmCompleter GoTo<CR>
+let g:ycm_filetype_specific_completion_to_disable = { 'python': 1, 'tex': 1 }
 
 Plugin 'Valloric/ListToggle'
 
-Plugin 'jeaye/color_coded'
+" Plugin 'jeaye/color_coded'
 
 Plugin 'rdnetto/YCM-Generator'
 " Plugin 'kien/ctrlp.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_max_files = 0
 " map <leader>mr :CtrlPMRUFiles<CR>
-set wildignore+=*.class,*/target/*,*.swp,*/assembly/*,*/data/*,*.backup,*.html,
+set wildignore+=*.class,*/target/*,*.swp,*/assembly/*,*.backup,
     \*.pyc,*.data,*.train,*.test,*.pdf,*.tar,*.tgz,*/CMakeFiles/*,*/debug/googletest-src/*,
-    \*/release/googletest-src/*
+    \*/release/googletest-src/*,*.dia,*.o,*.a
 " let g:ctrlp_custom_ignore = '/Users/crankshaw/clipper-cpp/debug,/Users/crankshaw/clipper-cpp/release'
 
 Plugin 'scrooloose/nerdtree'
@@ -215,9 +221,9 @@ Plugin 'jnurmine/Zenburn'
 
 Plugin 'nathanaelkane/vim-indent-guides'
 " Plugin 'Shougo/neocomplete.vim'
-Plugin 'Lokaltog/vim-easymotion'
+" Plugin 'Lokaltog/vim-easymotion'
 Plugin 'corntrace/bufexplorer'
-Plugin 'vim-scripts/xptemplate'
+" Plugin 'vim-scripts/xptemplate'
 Plugin 'derekwyatt/vim-scala'
 " Syntax highlight
 " Plugin 'gmarik/vim-markdown'
@@ -230,8 +236,27 @@ let g:goyo_height='95%'
 let g:goyo_linenr=0
 map <C-g> :Goyo<CR>
 
-" Python PEP8 checking
-Plugin 'nvie/vim-flake8'
+Plugin 'python-mode/python-mode'
+let g:pymode_rope=0
+let g:pymode_doc=0
+let g:pymode_python = 'python3'
+let g:pymode_virtualenv=0
+let g:pymode_rope_complete_on_dot=0
+let g:pymode_rope_completion = 0
+" let g:pymode_run=0
+" let g:pymode_rope_lookup_project=0
+" " let g:pymode_lint=0
+let g:pymode_lint_on_fly=0
+let g:pymode_rope_lookup_project=0
+let g:pymode_options_max_line_length=100
+" autocmd FileType python set colorcolumn=100
+let g:pymode_lint_on_write = 1
+let g:pymode_lint_ignore = ["E402", "C901"]
+let g:pymode_lint_checkers = ['pyflakes', 'pep8']
+let pymode_breakpoint_bind = ''
+" " let g:pymode_syntax = 0
+" " Python PEP8 checking
+" " Plugin 'nvie/vim-flake8'
 
 
 Plugin 'L9'
@@ -291,18 +316,19 @@ vnoremap // :TComment<CR>
 Plugin 'bling/vim-airline'
 Plugin 'cespare/vim-toml'
 Plugin 'rhysd/vim-clang-format'
-let g:clang_format#code_style = "google"
-let g:clang_format#style_options = {
-            \ "AccessModifierOffset" : -4,
-            \ "AllowShortIfStatementsOnASingleLine" : "true",
-            \ "AlwaysBreakTemplateDeclarations" : "true",
-            \ "Standard" : "C++14"}
+" let g:clang_format#code_style = 'google'
+" let g:clang_format#style_options = {
+"             \ "AccessModifierOffset" : -4,
+"             \ "AllowShortIfStatementsOnASingleLine" : "true",
+"             \ "AlwaysBreakTemplateDeclarations" : "true",
+"             \ "Standard" : "C++14"}
 let g:clang_format#detect_style_file = 1
 let g:clang_format#auto_format = 1
 let g:clang_format#auto_formatexpr = 1
 
 
 
+Plugin 'ekalinin/Dockerfile.vim'
 
 " Plugin 'cstrahan/vim-capnp'
 

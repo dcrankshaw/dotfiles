@@ -27,6 +27,7 @@ alias cbd='cargo build --features nightly --no-default-features'
 # alias ct='cargo test'
 alias clrest='RUST_LOG=info RUST_BACKTRACE=1 ./target/debug/clipper-rest start --conf conf/test.toml'
 alias tcpd1337="sudo tcpdump -s 0 -A -i lo0 'tcp port 1337 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'"
+alias docker_stop_all='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -82,7 +83,7 @@ export GOPATH=$HOME/go
 
 
 # Customize to your needs...
-export PATH=/Users/crankshaw/anaconda2/bin:/usr/texbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin
+export PATH=/Users/crankshaw/miniconda2/bin:/Library/TeX/texbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin
 export PATH=$PATH:/usr/local/opt/go/libexec/bin:/Users/crankshaw/.cargo/bin:/usr/local/sbin
 export CARGO_HOME=$HOME/.cargo
 export RUST_SRC_PATH=/usr/local/src/rustc-1.8.0/src
@@ -100,23 +101,31 @@ plugins=(git brew osx history-substring-search mvn conda docker)
 source $ZSH/oh-my-zsh.sh
 # export SBT_OPTS="-Xmx2G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G -Xss2M  -Duser.timezone=GMT"
 # export MAVEN_OPTS="-Xmx4g -XX:MaxPermSize=4000M -XX:ReservedCodeCacheSize=512m"
-# export SPARK_HOME="$HOME/model-serving/spark-1.6.0-bin-hadoop2.4"
+export SPARK_HOME="$HOME/code/amplab/model-serving/spark_serialization_project/spark_binary"
 # export PYSPARK_SUBMIT_ARGS="--master local[2]"
 # export VELOX_CLUSTER_KEY=~/.ssh/aws_rsa
 # eval "$(jenv init -)"
 export HOMEBREW_GITHUB_API_TOKEN="4a156db4f3918d79054031ab9c5e4f2071e21186"
 export OPENSSL_INCLUDE_DIR=/usr/local/opt/openssl/include
 export DEP_OPENSSL_INCLUDE=/usr/local/opt/openssl/include
+export HOMEBREW_CASK_OPTS="--caskroom=/opt/homebrew-cask/Caskroom"
 
 # function title {
 #     echo -ne "\033]0;"$*"\007"
 # }
 
 # from http://stackoverflow.com/questions/17033096/homebrew-mac-change-python-path
-export PYTHONPATH=/Users/crankshaw/model-serving/caffe/python:$PYTHONPATH
+# export PYTHONPATH=/Users/crankshaw/model-serving/caffe/python:$PYTHONPATH
+# export PYTHONPATH=/Users/crankshaw/clipper-cpp/management:$PYTHONPATH
 # bindkey -v
 
 # OPAM configuration
 . /Users/crankshaw/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+export JZMQ_HOME=/usr/local/lib/
+export BROWSER="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+source <(kubectl completion zsh)

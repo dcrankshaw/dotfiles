@@ -2,70 +2,6 @@
 -- note that F17 isn't actually bound to anything
 k = hs.hotkey.modal.new({}, "F17")
 
-singleapps = {
-  {'m', 'Mailplane 3'},
-  {'z', 'Papers 3.4.0'},
-  {'v', 'MacVim'},
-  {'e', 'Evernote'},
-  {'t', 'iTerm2'},
-  {'s', 'Slack'},
-  {'n', 'Marked'},
-  {'l', 'Calendar'},
-  {'d', 'Google Play Music Desktop Player'},
-  {'p', 'Microsoft PowerPoint'},
-  {'q', 'Preview'},
-  {'c', 'Google Chrome'},
-  {'i', 'Xcode'},
-}
-
-focus = function(appname)
-  -- hs.application.launchOrFocus(appname)
-  local running_app = hs.application.get(appname)
-  -- hs.alert(running_app:name())
-  if running_app ~= nil then
-    -- hs.alert("aafdsfds")
-    -- local win = running_app:mainWindow()
-    -- win:focus()
-    running_app:activate()
-  end
-  -- k.triggered = true
-end
-
-
-
-for i, app in ipairs(singleapps) do
-  -- k:bind({}, app[1], "pressed", function() launch(app[2]); k:exit(); end, nil, nil)
-  k:bind({}, app[1], function() focus(app[2]); end)
-end
-
--- Enter Hyper Mode when F18 (Hyper/Capslock) is pressed
-pressedHyper = function()
-  -- k.triggered = false
-  -- hs.alert("Hyper mode entered")
-  k:enter()
-end
-
--- -- Leave Hyper Mode when F18 (Hyper/Capslock) is pressed,
--- --   send ESCAPE if no other keys are pressed.
-releasedHyper = function()
-  -- hs.alert("Hyper mode exited")
-  k:exit()
-  -- if not k.triggered then
-  --   hs.eventtap.keyStroke({}, 'ESCAPE')
-  -- end
-end
-
--- Bind the Hyper key
-f18 = hs.hotkey.bind({}, 'F18', pressedHyper, releasedHyper)
-
-hs.hotkey.bind({"cmd", "shift"}, 'l', hs.caffeinate.startScreensaver)
-
-------------------------------------
--- Window management
-------------------------------------
-
-hs.window.animationDuration = 0 -- disable animations
-
 function leftHalf()
   local win = hs.window.focusedWindow()
   local f = win:frame()
@@ -159,8 +95,6 @@ function fullScreen()
 end
 
 function throwRight()
-  -- local cur_screen = hs.screen.primaryScreen()
-  -- local next_screen = cur_screen:next()
   local next_screen = hs.screen.allScreens()[2]
   local win = hs.window.focusedWindow()
   win:moveToScreen(next_screen)
@@ -176,23 +110,104 @@ function throwLeft()
   rightHalf()
 end
 
-k:bind({}, '-', leftHalf)
-k:bind({}, '=', rightHalf)
-k:bind({}, '9', leftTwoThirds)
-k:bind({}, '0', rightTwoThirds)
-k:bind({}, '7', leftThird)
-k:bind({}, '8', rightThird)
-k:bind({}, '=', rightHalf)
-k:bind({}, 'f', fullScreen)
-k:bind({}, "'", throwRight)
-k:bind({}, ";", throwLeft)
+singleapps = {
+  {'m', 'Mailplane 3'},
+  {'z', 'Papers 3.4.7'},
+  {'v', 'MacVim'},
+  {'e', 'Evernote'},
+  {'t', 'iTerm2'},
+  {'s', 'Slack'},
+  {'n', 'Marked 2'},
+  {'l', 'Calendar'},
+  {'d', 'Google Play Music Desktop Player'},
+  -- {'d', 'iTunes'},
+  {'p', 'Microsoft PowerPoint'},
+  {'q', 'Preview'},
+  {'c', 'Google Chrome'},
+  {'i', 'Dash'},
+  {'x', 'Xcode'},
+  {'w', 'Twitter'},
+  {'j', 'IntelliJ IDEA'},
+}
+
+focus = function(appname)
+  -- hs.application.launchOrFocus(appname)
+  local running_app = hs.application.get(appname)
+  -- hs.alert(running_app:name())
+  if running_app ~= nil then
+    -- hs.alert("aafdsfds")
+    -- local win = running_app:mainWindow()
+    -- win:focus()
+    running_app:activate()
+  end
+  k.triggered = true
+end
+
+for i, app in ipairs(singleapps) do
+  -- k:bind({}, app[1], "pressed", function() launch(app[2]); k:exit(); end, nil, nil)
+  k:bind({}, app[1], function() focus(app[2]); end)
+end
+
+movements = {
+  {'-', leftHalf},
+  {'=', rightHalf},
+  {'9', leftTwoThirds},
+  {'0', rightTwoThirds},
+  {'7', leftThird},
+  {'8', rightThird},
+  {'=', rightHalf},
+  {'f', fullScreen},
+  {"'", throwRight},
+  {";", throwLeft},
+}
+
+for i,bnd in ipairs(movements) do
+  k:bind({}, bnd[1], function() bnd[2](); k.triggered = true; end)
+end
+
+-- k:bind({}, '-', leftHalf)
+-- k:bind({}, '=', rightHalf)
+-- k:bind({}, '9', leftTwoThirds)
+-- k:bind({}, '0', rightTwoThirds)
+-- k:bind({}, '7', leftThird)
+-- k:bind({}, '8', rightThird)
+-- k:bind({}, '=', rightHalf)
+-- k:bind({}, 'f', fullScreen)
+-- k:bind({}, "'", throwRight)
+-- k:bind({}, ";", throwLeft)
+
+-- Enter Hyper Mode when F18 (Hyper/Capslock) is pressed
+pressedHyper = function()
+  k.triggered = false
+  -- hs.alert("Hyper mode entered")
+  k:enter()
+end
+
+-- -- Leave Hyper Mode when F18 (Hyper/Capslock) is pressed,
+-- --   send ESCAPE if no other keys are pressed.
+releasedHyper = function()
+  -- hs.alert("Hyper mode exited")
+  k:exit()
+  if not k.triggered then
+    hs.eventtap.keyStroke({}, 'ESCAPE')
+  end
+end
+
+-- Bind the Hyper key
+f18 = hs.hotkey.bind({}, 'F18', pressedHyper, releasedHyper)
+
+hs.hotkey.bind({"cmd", "shift"}, 'l', hs.caffeinate.startScreensaver)
+
+hs.window.animationDuration = 0 -- disable animations
+
+
 
 -----------------------------------------------
 -- Hyper i to show window hints
 -----------------------------------------------
 
 -- k:bind({}, 'i', function() hs.hints.windowHints(); k:exit() end)
-hs.hotkey.bind({'cmd', 'shift'}, 'i', hs.hints.windowHints)
+-- hs.hotkey.bind({'cmd', 'shift'}, 'i', hs.hints.windowHints)
 
 -- hs.hotkey.bind(hyper, "i", function()
 --     hs.hints.windowHints()
@@ -254,6 +269,13 @@ hs.hotkey.bind({'ctrl', 'shift'}, '1', hs.reload)
 
 local myWatcher1 = hs.pathwatcher.new(os.getenv("HOME") .. "/config/dotfiles/hammerspoon/", reloadConfig):start()
 local myWatcher2 = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+
+function lock()
+  hs.caffeinate.startScreensaver()
+  -- hs.caffeinate.lockScreen()
+end
+
+hs.hotkey.bind({"cmd", "shift"}, 'l', lock)
 
 hs.alert.show("Config loaded")
 
