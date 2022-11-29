@@ -111,23 +111,26 @@ function throwLeft()
 end
 
 singleapps = {
-  {'m', 'Mailplane 3'},
-  {'z', 'Papers 3.4.7'},
-  {'v', 'MacVim'},
-  {'e', 'Evernote'},
+  {'m', 'Microsoft Teams'},
+  {'o', 'Microsoft Outlook'},
+  -- {'z', 'Papers 3.4.7'},
+  {'v', 'Neovim'},
+  -- {'e', 'Evernote'},
   {'t', 'iTerm2'},
-  {'s', 'Slack'},
-  {'n', 'Marked 2'},
+  -- {'s', 'Slack'},
+  -- {'n', 'Marked 2'},
   {'l', 'Calendar'},
   {'d', 'Google Play Music Desktop Player'},
   -- {'d', 'iTunes'},
   {'p', 'Microsoft PowerPoint'},
   {'q', 'Preview'},
   {'c', 'Google Chrome'},
-  {'i', 'Dash'},
-  {'x', 'Xcode'},
-  {'w', 'Twitter'},
-  {'j', 'IntelliJ IDEA'},
+  {'e', 'Microsoft Edge'},
+  {'n', 'Microsoft OneNote'},
+  -- {'i', 'Dash'},
+  -- {'x', 'Xcode'},
+  -- {'w', 'Twitter'},
+  -- {'j', 'IntelliJ IDEA'},
 }
 
 focus = function(appname)
@@ -267,7 +270,7 @@ end
 hs.hotkey.bind({'ctrl', 'shift'}, '1', hs.reload)
 
 
-local myWatcher1 = hs.pathwatcher.new(os.getenv("HOME") .. "/config/dotfiles/hammerspoon/", reloadConfig):start()
+local myWatcher1 = hs.pathwatcher.new(os.getenv("HOME") .. "/dotfiles/hammerspoon/", reloadConfig):start()
 local myWatcher2 = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 
 function lock()
