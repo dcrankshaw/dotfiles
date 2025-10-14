@@ -117,8 +117,8 @@ singleapps = {
   {'v', 'Neovim'},
   -- {'e', 'Evernote'},
   {'t', 'iTerm2'},
-  -- {'s', 'Slack'},
-  -- {'n', 'Marked 2'},
+  {'s', 'Slack'},
+  {'n', 'Obsidian'},
   {'l', 'Calendar'},
   {'d', 'Google Play Music Desktop Player'},
   -- {'d', 'iTunes'},
@@ -126,11 +126,6 @@ singleapps = {
   {'q', 'Preview'},
   {'c', 'Google Chrome'},
   {'e', 'Microsoft Edge'},
-  {'n', 'Microsoft OneNote'},
-  -- {'i', 'Dash'},
-  -- {'x', 'Xcode'},
-  -- {'w', 'Twitter'},
-  -- {'j', 'IntelliJ IDEA'},
 }
 
 focus = function(appname)
@@ -244,10 +239,10 @@ hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pastebo
 
 -------------------------------------------------
 -- FOR DEBUGGING: prints out every key tap event
--- tap = hs.eventtap.new({hs.eventtap.event.types.keyDown}, function(event)
---   print(hs.inspect(event:getRawEventData()))
--- end)
--- tap:start()
+tap = hs.eventtap.new({hs.eventtap.event.types.keyDown}, function(event)
+   print(hs.inspect(event:getRawEventData()))
+ end)
+ tap:start()
 -------------------------------------------------
 
 -------------------------------------------
@@ -270,7 +265,7 @@ end
 hs.hotkey.bind({'ctrl', 'shift'}, '1', hs.reload)
 
 
-local myWatcher1 = hs.pathwatcher.new(os.getenv("HOME") .. "/dotfiles/hammerspoon/", reloadConfig):start()
+-- local myWatcher1 = hs.pathwatcher.new(os.getenv("HOME") .. "/dotfiles/hammerspoon/", reloadConfig):start()
 local myWatcher2 = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 
 function lock()

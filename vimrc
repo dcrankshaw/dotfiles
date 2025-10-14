@@ -68,7 +68,7 @@ vnoremap // :TComment<CR>
 " let g:pymode_syntax = 0
 
 
-" Plug 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized'
 Plug 'JulioJu/neovim-qt-colors-solarized-truecolor-only'
 
 
@@ -119,11 +119,11 @@ nnoremap <leader>rs :source $MYVIMRC<cr>
 
 syntax enable
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=dark " or dark
-colorscheme solarized_nvimqt
+" colorscheme solarized_nvimqt
 " set background=light
-" colorscheme solarized
+colorscheme solarized
 
 set termguicolors
 
@@ -150,6 +150,6 @@ set splitbelow
 set splitright
 set nowrap
 set hidden
-set clipboard+=unnamedplus
+" set clipboard+=unnamedplus
 au BufEnter * silent! lcd %:p:h
 
