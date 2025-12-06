@@ -8,11 +8,21 @@ function leftHalf()
   local screen = win:screen()
   local max = screen:frame()
 
+  -- hs.alert.show("XXXXXXX")
   f.x = max.x
   f.y = max.y
   f.w = max.w / 2
   f.h = max.h
+
+  local axApp = hs.axuielement.applicationElement(win:application())
+  local wasEnhanced = axApp.AXEnhancedUserInterface
+  if wasEnhanced then axApp.AXEnhancedUserInterface = false end
+
+  -- hs.alert.show("XXXXXXXXXX %f %f %f %f".format(f.x, f.y, f.w, f.h))
   win:setFrame(f)
+  -- enable it back
+  if wasEnhanced then axApp.AXEnhancedUserInterface = true end
+
 end
 
 function leftThird()
@@ -95,18 +105,18 @@ function fullScreen()
 end
 
 function throwRight()
-  local next_screen = hs.screen.allScreens()[2]
+  -- local next_screen = hs.screen.allScreens()[1]
   local win = hs.window.focusedWindow()
-  win:moveToScreen(next_screen)
+  -- win:moveToScreen(next_screen)
+  win:moveOneScreenEast(false, true, 0.5)
   leftHalf()
 end
 
 function throwLeft()
-  -- local cur_screen = hs.screen.mainScreen()
-  -- local prev_screen = cur_screen:previous()
-  local prev_screen = hs.screen.allScreens()[1]
+  -- local prev_screen = hs.screen.allScreens()[2]
   local win = hs.window.focusedWindow()
-  win:moveToScreen(prev_screen)
+  win:moveOneScreenWest(false, true, 0.5)
+  -- win:moveToScreen(prev_screen)
   rightHalf()
 end
 
@@ -114,7 +124,7 @@ singleapps = {
   {'m', 'Microsoft Teams'},
   {'o', 'Microsoft Outlook'},
   -- {'z', 'Papers 3.4.7'},
-  {'v', 'Neovim'},
+  {'v', 'Code'},
   -- {'e', 'Evernote'},
   {'t', 'iTerm2'},
   {'s', 'Slack'},
@@ -242,7 +252,7 @@ hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pastebo
 tap = hs.eventtap.new({hs.eventtap.event.types.keyDown}, function(event)
    print(hs.inspect(event:getRawEventData()))
  end)
- tap:start()
+-- tap:start()
 -------------------------------------------------
 
 -------------------------------------------
