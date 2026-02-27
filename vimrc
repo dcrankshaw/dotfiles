@@ -9,7 +9,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 " Plugins
-call plug#begin()
+call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 map <C-n> :NERDTreeToggle<CR>
@@ -119,11 +119,11 @@ nnoremap <leader>rs :source $MYVIMRC<cr>
 
 syntax enable
 
-" let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=dark " or dark
-" colorscheme solarized_nvimqt
+colorscheme solarized_nvimqt
 " set background=light
-colorscheme solarized
+" colorscheme solarized
 
 set termguicolors
 
