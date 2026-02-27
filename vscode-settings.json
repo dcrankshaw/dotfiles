@@ -1,0 +1,281 @@
+{
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "workbench.colorTheme": "Solarized Dark",
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.lineNumbers": "on",
+    "editor.rulers": [
+        80,
+        100
+    ],
+    "editor.wordWrap": "off",
+    "editor.showFoldingControls": "always",
+    "workbench.startupEditor": "none",
+    "explorer.confirmDelete": false,
+    "search.useIgnoreFiles": true,
+    "search.exclude": {
+        "**/*.class": true,
+        "**/target/**": true,
+        "**/*.swp": true,
+        "**/assembly/**": true,
+        "**/*.backup": true,
+        "**/*.pyc": true,
+        "**/*.data": true,
+        "**/*.train": true,
+        "**/*.pdf": true,
+        "**/*.tar": true,
+        "**/*.tgz": true,
+        "**/CMakeFiles/**": true,
+        "**/*.dia": true,
+        "**/*.o": true,
+        "**/*.a": true
+    },
+    "vim.leader": ",",
+    "vim.useSystemClipboard": true,
+    "vim.hlsearch": true,
+    "vim.ignorecase": true,
+    "vim.smartcase": true,
+    "vim.incsearch": true,
+    "vim.enableNeovim": false,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<C-h>"
+            ],
+            "commands": [
+                "workbench.action.focusLeftGroup"
+            ]
+        },
+        {
+            "before": [
+                "<C-j>"
+            ],
+            "commands": [
+                "workbench.action.focusBelowGroup"
+            ]
+        },
+        {
+            "before": [
+                "<C-k>"
+            ],
+            "commands": [
+                "workbench.action.focusAboveGroup"
+            ]
+        },
+        {
+            "before": [
+                "<C-l>"
+            ],
+            "commands": [
+                "workbench.action.focusRightGroup"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "n",
+                "h"
+            ],
+            "commands": [
+                ":nohl"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w"
+            ],
+            "commands": [
+                "workbench.action.splitEditor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "e",
+                "v"
+            ],
+            "commands": [
+                "workbench.action.splitEditor",
+                "workbench.action.openSettingsJson"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "o"
+            ],
+            "after": [
+                "o",
+                "<Esc>",
+                "k"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "O"
+            ],
+            "after": [
+                "O",
+                "<Esc>",
+                "j"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "="
+            ],
+            "commands": [
+                "workbench.action.evenEditorWidths"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "b",
+                "e"
+            ],
+            "commands": [
+                "workbench.action.showAllEditors"
+            ]
+        },
+        {
+            "before": [
+                "<C-n>"
+            ],
+            "commands": [
+                "workbench.view.explorer"
+            ]
+        },
+        {
+            "before": [
+                "/",
+                "/"
+            ],
+            "commands": [
+                "editor.action.commentLine"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "a",
+                "i"
+            ],
+            "commands": [
+                "workbench.panel.chat.view.copilot.focus"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "p"
+            ],
+            "commands": [
+                "workbench.action.togglePanel"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "s",
+                "b"
+            ],
+            "commands": [
+                "workbench.action.toggleAuxiliaryBar"
+            ]
+        },
+        {
+            "before": [
+                "<D-right>"
+            ],
+            "commands": [
+                "workbench.action.nextEditor"
+            ]
+        },
+        {
+            "before": [
+                "<D-left>"
+            ],
+            "commands": [
+                "workbench.action.previousEditor"
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "/",
+                "/"
+            ],
+            "commands": [
+                "editor.action.commentLine"
+            ]
+        }
+    ],
+    "vim.insertModeKeyBindings": [],
+    "editor.minimap.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "ruff.path": [
+        "uv run ruff"
+    ],
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    "claudeCode.environmentVariables": [
+        {
+            "name": "ANTHROPIC_AUTH_TOKEN",
+            "value": "sk-731LytIaJs"
+        },
+        {
+            "name": "ANTHROPIC_API_KEY",
+            "value": "sk-731LytIaJs"
+        },
+        {
+            "name": "ANTHROPIC_BASE_URL",
+            "value": "http://localhost:4000"
+        },
+        {
+            "name": "CLAUDE_CODE_TMPDIR",
+            "value": "/tmp/dancrankshaw_claude"
+        },
+        {
+            "name": "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC",
+            "value": "1"
+        },
+        {
+            "name": "DISABLE_AUTOUPDATER",
+            "value": "1"
+        }
+    ],
+    "claudeCode.useTerminal": true,
+    "claudeCode.preferredLocation": "sidebar",
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontLigatures": false,
+    "editor.fontSize": 14,
+    "chat.viewSessions.orientation": "stacked",
+    "settingsSync.ignoredSettings": [
+        "claudeCode.environmentVariables"
+    ],
+    "git.openRepositoryInParentFolders": "never",
+    "python.analysis.nodeExecutable": "auto",
+    "python.analysis.nodeArguments": [
+        "--max-old-space-size=16384"
+    ]
+}

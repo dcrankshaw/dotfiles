@@ -1,131 +1,166 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+# If you come from bash you might have to change your $PATH.
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-# ZSH_THEME="af-magic"
-# ZSH_THEME="soliah"
-ZSH_THEME="pygmalion"
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
 
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time Oh My Zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
 
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git zsh-syntax-highlighting)
+
+zstyle ':omz:update' mode disabled
+# zstyle ':omz:update' frequency 7
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch $(uname -m)"
+
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
+# For a full list of active aliases, run `alias`.
+#
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias vim=mvim
-#alias vim="open -a MacVim"
-alias svim=/usr/bin/vim
-alias ct="ctags -R --exclude=target --exclude=vendor -f ./.git/tags ."
-alias alog='git log --date-order --all --graph --date=short --format="%C(green)%h%Creset %C(yellow)%an%Creset %C(blue bold)%ad%Creset %C(red bold)%d%Creset%s"'
-alias hlog='git log --date-order --graph --date=short --format="%C(green)%h%Creset %C(yellow)%an%Creset %C(blue bold)%ad%Creset %C(red bold)%d%Creset%s"'
-alias gs='git status'
-alias groot='cd $(git rev-parse --show-cdup)'
-alias cbr='cargo build --release --features nightly --no-default-features'
-alias cbd='cargo build --features nightly --no-default-features'
-# alias ct='cargo test'
-alias clrest='RUST_LOG=info RUST_BACKTRACE=1 ./target/debug/clipper-rest start --conf conf/test.toml'
-alias tcpd1337="sudo tcpdump -s 0 -A -i lo0 'tcp port 1337 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'"
-alias docker_stop_all='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
+# alias gh=github
+# alias k=kubectl
+# alias yolo_tmux_init="kubectl -n dancrankshaw cp ~/dotfiles/tmux_conf dancrankshaw-devbox-0:/root/.tmux.conf"
+# alias yolo_ssh_devbox="kubectl exec -it -n dancrankshaw dancrankshaw-devbox-0 -- bash"
+# alias yolo_sync="uv run yolo sync"
 
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# export PATH=$PATH:/usr/local/bin
 
-# Comment this out to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment to change how often before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want to disable command autocorrection
-# DISABLE_CORRECTION="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment following line if you want to disable marking untracked files under
-# VCS as dirty. This makes repository status check for large repositories much,
-# much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$('/Users/dancrankshaw/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/dancrankshaw/miniconda3/etc/profile.d/conda.sh" ]; then
+#         . "/Users/dancrankshaw/miniconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/dancrankshaw/miniconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# echo "CCCCCCCCCCCCCCc"
+# # <<< conda initialize <<<
 
 
-export ARCHFLAGS="-arch x86_64"
-# only run pip if in a virtualenv
-# export PIP_REQUIRE_VIRTUALENV=true
-# export PIP_REQUIRE_VIRTUALENV=false
-# cache pip-installed packages to avoid re-downloading
-# export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
-
-export EDITOR="vim"
-
-# tmux plugin flags
-# export ZSH_TMUX_ITERM2="true"
-
-export GREP_OPTIONS='--color=auto'
-# export GREP_COLOR='1;30;40'
-export GREP_COLORS="rv:38;5;230:sl=38;5;240:cx=38;5;100:mt=33;1;38;5;161:fn=38;5;197:ln=38;5;212:bn=38;5;44:se=38;5;166"
-
-#rbenv
-export RBENV_ROOT=/usr/local/var/rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-# export PYTHONPATH=`brew --prefix`/lib/python2.7/site-packages:$PYTHONPATH
-export JAVA_HOME=$(/usr/libexec/java_home)
-export GOPATH=$HOME/go
+. "$HOME/.local/bin/env"
 
 
+doc() {
+  timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+  suffix="${1:+_$1}"
+  filename="~/notes/${timestamp}${suffix}.md"
+  vim "$filename"
+}
 
-# Customize to your needs...
-export PATH=/Users/crankshaw/miniconda2/bin:/Library/TeX/texbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin
-export PATH=$PATH:/usr/local/opt/go/libexec/bin:/Users/crankshaw/.cargo/bin:/usr/local/sbin
-export CARGO_HOME=$HOME/.cargo
-export RUST_SRC_PATH=/usr/local/src/rustc-1.8.0/src
-export PKG_CONFIG_PATH=/usr/local/Cellar/zeromq/4.1.5/lib/pkgconfig/
+# NEPTUNE_API_TOKEN: set in ~/.secrets.zsh (not tracked in dotfiles)
+# export NEPTUNE_API_TOKEN="..."
+# export NEPTUNE_API_KEY=$NEPTUNE_API_TOKEN
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export YOLO_USER="dancrankshaw"
+export YOLO_WORKTREE_MODE="true"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/dancrankshaw/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
 
-# virtualenv directives
-# export WORKON_HOME=$HOME/.virtualenvs
-# export PROJECT_HOME=$HOME/code/python
-# export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-# source /usr/local/bin/virtualenvwrapper_lazy.sh
-# source /usr/local/bin/virtualenvwrapper.sh
-source ~/aws_creds.sh
-# plugins=(git brew virtualenv virtualenvwrapper pip osx history-substring-search)
-plugins=(git brew osx history-substring-search mvn conda docker)
-source $ZSH/oh-my-zsh.sh
-# export SBT_OPTS="-Xmx2G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G -Xss2M  -Duser.timezone=GMT"
-# export MAVEN_OPTS="-Xmx4g -XX:MaxPermSize=4000M -XX:ReservedCodeCacheSize=512m"
-export SPARK_HOME="$HOME/code/amplab/model-serving/spark_serialization_project/spark_binary"
-# export PYSPARK_SUBMIT_ARGS="--master local[2]"
-# export VELOX_CLUSTER_KEY=~/.ssh/aws_rsa
-# eval "$(jenv init -)"
-export HOMEBREW_GITHUB_API_TOKEN="4a156db4f3918d79054031ab9c5e4f2071e21186"
-export OPENSSL_INCLUDE_DIR=/usr/local/opt/openssl/include
-export DEP_OPENSSL_INCLUDE=/usr/local/opt/openssl/include
-export HOMEBREW_CASK_OPTS="--caskroom=/opt/homebrew-cask/Caskroom"
+# Override mai-agents model settings for Claude Code
+export ANTHROPIC_MODEL="opus"
+export ANTHROPIC_SMALL_FAST_MODEL="sonnet"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="sonnet"
+# direnv: per-directory environment variables (used for per-worktree cluster context)
+eval "$(direnv hook zsh)"
 
-# function title {
-#     echo -ne "\033]0;"$*"\007"
-# }
+source <(fzf --zsh)
 
-# from http://stackoverflow.com/questions/17033096/homebrew-mac-change-python-path
-# export PYTHONPATH=/Users/crankshaw/model-serving/caffe/python:$PYTHONPATH
-# export PYTHONPATH=/Users/crankshaw/clipper-cpp/management:$PYTHONPATH
-# bindkey -v
-
-# OPAM configuration
-. /Users/crankshaw/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
-export JZMQ_HOME=/usr/local/lib/
-export BROWSER="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-
-test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
-source <(kubectl completion zsh)
+# Load secrets (API tokens, etc.) — not tracked in dotfiles
+[ -f ~/.secrets.zsh ] && source ~/.secrets.zsh

@@ -1,0 +1,33 @@
+{
+  "env": {
+    "CLAUDE_CODE_TMPDIR": "/tmp/dancrankshaw_claude",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "95",
+    "ENABLE_TOOL_SEARCH": "true"
+  },
+  "model": "opus[1m]",
+  "enabledPlugins": {
+    "web-search@mai-agents": true,
+    "azure-best-practices@mai-agents": true,
+    "plugin-manager@mai-agents": true,
+    "browser-automator@mai-agents": false
+  },
+  "extraKnownMarketplaces": {
+    "mai-agents": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/dancrankshaw/mai-agents"
+      }
+    },
+    "local-skills": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/dancrankshaw/mai-agents/skills/local"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "pluginSources": [
+    "/Users/dancrankshaw/mai-agents",
+    "/Users/dancrankshaw/mai-agents/skills/local"
+  ]
+}
