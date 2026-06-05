@@ -131,7 +131,7 @@ singleapps = {
   {'n', 'Obsidian'},
   {'l', 'Linear'},
   -- {'d', 'Google Play Music Desktop Player'},
-  -- {'d', 'iTunes'},
+  {'d', 'Marked 2'},
   -- {'p', 'Microsoft PowerPoint'},
   {'q', 'Preview'},
   {'c', 'Google Chrome'},

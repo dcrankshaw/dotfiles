@@ -262,6 +262,10 @@
         {
             "name": "DISABLE_AUTOUPDATER",
             "value": "1"
+        },
+        {
+            "name": "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE",
+            "value": "75"
         }
     ],
     "claudeCode.useTerminal": true,
@@ -277,5 +281,19 @@
     "python.analysis.nodeExecutable": "auto",
     "python.analysis.nodeArguments": [
         "--max-old-space-size=16384"
-    ]
+    ],
+    "gitlens.views.scm.grouped.views": {
+        "commits": true,
+        "branches": true,
+        "remotes": true,
+        "stashes": true,
+        "tags": true,
+        "worktrees": true,
+        "contributors": true,
+        "fileHistory": false,
+        "repositories": true,
+        "searchAndCompare": true,
+        "launchpad": false
+    },
+    "scm.repositories.selectionMode": "single"
 }

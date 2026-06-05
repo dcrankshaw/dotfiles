@@ -1,5 +1,13 @@
 alias k=kubectl
 
+yk() {
+  if [[ -n "$YOLO_KUBECTL_CONTEXT" ]]; then
+    kubectl --context="${YOLO_KUBECTL_CONTEXT}" "$@"
+  else
+    kubectl "$@"
+  fi
+}
+
 ytmux() {
   local jobname="${1:-${YOLO_DEFAULT_JOB:-dancrankshaw-devbox}}"
   local ctx_flag=""
@@ -100,6 +108,17 @@ yracks() {
   uv run yolo $cluster_flag describe racks "$@"
 }
 
+yqueues() {
+  local cluster_flag=""
+  local cluster_display="<global config>"
+  if [[ -n "$YOLO_CLUSTER_NAME" ]]; then
+    cluster_flag="--cluster=${YOLO_CLUSTER_NAME}"
+    cluster_display="$YOLO_CLUSTER_NAME"
+  fi
+  echo "→ cluster: ${cluster_display}" >&2
+  uv run yolo $cluster_flag describe queues "$@"
+}
+
 yinteractive() {
   local cluster_flag=""
   local cluster_display="<global config>"
@@ -175,7 +194,7 @@ ysetcluster() {
     echo "Usage: ysetcluster <cluster> [default-jobname]"
     echo ""
     echo "Sets the cluster for the current worktree via direnv."
-    echo "Available clusters: falcon-phx-ga falcon-phx-ca falcon-satx-ca falcon-phx-gb"
+    echo "Available clusters: falcon-phx-ga falcon-phx-ga-staging falcon-phx-ca falcon-phx-gb falcon-phx-gb-staging falcon-dfw-ca falcon-dfw-ga falcon-dfw-ga-staging falcon-dfw-gb falcon-dfw-gb-staging falcon-satx-ca"
     echo ""
     if [[ -n "$YOLO_CLUSTER_NAME" ]]; then
       echo "Active (from .envrc): cluster=$YOLO_CLUSTER_NAME job=${YOLO_DEFAULT_JOB:-<default>}"
@@ -213,7 +232,7 @@ EOF
 }
 
 # --- Cluster-prefixed wrappers (auto-generated) ---
-_YOLO_CLUSTERS=(falcon-phx-ga falcon-phx-ca falcon-satx-ca falcon-phx-gb)
+_YOLO_CLUSTERS=(falcon-phx-ga falcon-phx-ga-staging falcon-phx-ca falcon-phx-gb falcon-phx-gb-staging falcon-dfw-ca falcon-dfw-ga falcon-dfw-ga-staging falcon-dfw-gb falcon-dfw-gb-staging falcon-satx-ca prod-eastus-nebius-1)
 
 for _cluster in "${_YOLO_CLUSTERS[@]}"; do
 

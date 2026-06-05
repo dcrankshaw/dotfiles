@@ -157,6 +157,7 @@ compinit
 export ANTHROPIC_MODEL="opus"
 export ANTHROPIC_SMALL_FAST_MODEL="sonnet"
 export ANTHROPIC_DEFAULT_HAIKU_MODEL="sonnet"
+# export DD_SITE="msi.datadoghq.com"
 # direnv: per-directory environment variables (used for per-worktree cluster context)
 eval "$(direnv hook zsh)"
 
