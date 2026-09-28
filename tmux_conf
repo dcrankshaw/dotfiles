@@ -88,3 +88,5 @@ set-window-option -g automatic-rename
 
 # color
 set -g default-terminal "screen-256color"
+# Pass 24-bit color through to the outer terminal (vimrc sets termguicolors).
+set -ga terminal-overrides ",xterm*:Tc"

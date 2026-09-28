@@ -132,7 +132,7 @@ singleapps = {
   {'l', 'Linear'},
   -- {'d', 'Google Play Music Desktop Player'},
   {'d', 'Marked 2'},
-  -- {'p', 'Microsoft PowerPoint'},
+  {'p', 'GitHub Copilot'},
   {'q', 'Preview'},
   {'c', 'Google Chrome'},
   {'e', 'Microsoft Edge'},

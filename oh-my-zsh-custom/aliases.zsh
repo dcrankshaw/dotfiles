@@ -21,15 +21,30 @@ ytmux() {
 }
 
 ydevbox() {
+  # local jobname="${1:-${YOLO_DEFAULT_JOB:-dancrankshaw-devbox}}"
+  # local ctx_flag=""
+  # local cluster_display="<global config>"
+  # if [[ -n "$YOLO_KUBECTL_CONTEXT" ]]; then
+  #   ctx_flag="--context=${YOLO_KUBECTL_CONTEXT}"
+  #   cluster_display="$YOLO_KUBECTL_CONTEXT"
+  # fi
+  # echo "→ cluster: ${cluster_display}  job: ${jobname}" >&2
+  # kubectl $ctx_flag exec -it -n dancrankshaw "${jobname}-0" -- bash
+  local repo_root
   local jobname="${1:-${YOLO_DEFAULT_JOB:-dancrankshaw-devbox}}"
-  local ctx_flag=""
+  repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ -z "$repo_root" ]]; then
+    echo "Error: Not in a git repository"
+    return 1
+  fi
+  local cluster_flag=""
   local cluster_display="<global config>"
-  if [[ -n "$YOLO_KUBECTL_CONTEXT" ]]; then
-    ctx_flag="--context=${YOLO_KUBECTL_CONTEXT}"
-    cluster_display="$YOLO_KUBECTL_CONTEXT"
+  if [[ -n "$YOLO_CLUSTER_NAME" ]]; then
+    cluster_flag="--cluster=${YOLO_CLUSTER_NAME}"
+    cluster_display="$YOLO_CLUSTER_NAME"
   fi
   echo "→ cluster: ${cluster_display}  job: ${jobname}" >&2
-  kubectl $ctx_flag exec -it -n dancrankshaw "${jobname}-0" -- bash
+  (cd "$repo_root" && uv run yolo $cluster_flag ssh "${jobname}")
 }
 
 ysync() {
@@ -47,7 +62,19 @@ ysync() {
     cluster_display="$YOLO_CLUSTER_NAME"
   fi
   echo "→ cluster: ${cluster_display}  job: ${jobname}" >&2
-  (cd "$repo_root" && uv run yolo $cluster_flag sync --job-name "${jobname}")
+  (cd "$repo_root" && _yolo_sync_cmd $cluster_flag sync --job-name "${jobname}")
+}
+
+# `yolo sync` reaches the cluster through yolo's packaged laptop kubeconfig (*.ts.net
+# servers). The MSI Coder devbox has no MagicDNS, so route yolo (not uv) through the
+# devbox's userspace Tailscale SOCKS5 proxy. Needs an approved devbox Tailscale node.
+_yolo_sync_cmd() {
+  if [[ -n "$CODER_WORKSPACE_NAME" ]]; then
+    uv run env HTTPS_PROXY=socks5://127.0.0.1:1055 \
+      NO_PROXY=localhost,127.0.0.1,.internal,.svc.cluster.local yolo "$@"
+  else
+    uv run yolo "$@"
+  fi
 }
 
 ycluster() {
@@ -69,7 +96,7 @@ ycluster() {
 
   # Update yolo config
   if grep -q "^- name: ${cluster}$" ~/.yolo/config; then
-    sed -i '' "s/^current-context:.*/current-context: ${cluster}/" ~/.yolo/config
+    sed -i.bak "s/^current-context:.*/current-context: ${cluster}/" ~/.yolo/config && rm -f ~/.yolo/config.bak
     echo "Updated ~/.yolo/config to: ${cluster}"
   else
     echo "Warning: Cluster '${cluster}' not found in ~/.yolo/config"
@@ -148,7 +175,18 @@ ydelete() {
 }
 
 yolo-worktree() {
-      "$HOME/yolo/user_scripts/dancrankshaw/devtools/create-worktree.sh" "$@"
+      # The script runs in its own process, so it reports the new worktree path back
+      # through a temp file and we cd there ourselves.
+      local path_file rc
+      path_file="$(mktemp)"
+      YOLO_WORKTREE_PATH_FILE="$path_file" \
+        "$HOME/yolo/user_scripts/dancrankshaw/devtools/create-worktree.sh" "$@"
+      rc=$?
+      if [[ $rc -eq 0 && -s "$path_file" ]]; then
+        cd "$(<"$path_file")" || rc=1
+      fi
+      rm -f "$path_file"
+      return $rc
 }
 
 # If you currently have: alias mai-claude="~/mai-agents/claude.sh --model opus"
@@ -168,7 +206,9 @@ _iterm_tab_reset() {
   printf '\033]6;1;bg;*;default\a'
 }
 
-# Wrapper: tab orange while running, reset afterward
+# Wrapper: tab orange while running, reset afterward. macOS only: mai-agents/Claude
+# isn't available on the devbox, and on Linux this would shadow the C compiler.
+if [[ $OSTYPE == darwin* ]]; then
 cc() {
   # orange (tweak if you want a different shade)
   _iterm_tab_rgb 255 140 0
@@ -185,6 +225,7 @@ cc() {
   _iterm_tab_reset
   return $rc
 }
+fi
 
 ysetcluster() {
   local cluster="$1"
@@ -246,7 +287,7 @@ for _cluster in "${_YOLO_CLUSTERS[@]}"; do
       return 1
     fi
     echo \"→ cluster: ${_cluster}  job: \${jobname}\" >&2
-    (cd \"\$repo_root\" && uv run yolo --cluster=${_cluster} sync --job-name \"\${jobname}\")
+    (cd \"\$repo_root\" && _yolo_sync_cmd --cluster=${_cluster} sync --job-name \"\${jobname}\")
   }"
 
   # ytmux

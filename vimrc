@@ -125,6 +125,12 @@ colorscheme solarized_nvimqt
 " set background=light
 " colorscheme solarized
 
+" Vim only knows the 24-bit color escapes for xterm-like TERMs; spell them out
+" inside tmux (TERM=screen-256color) so termguicolors works there too.
+if !has('nvim') && &term =~# '^\%(screen\|tmux\)'
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 set termguicolors
 
 set hlsearch
