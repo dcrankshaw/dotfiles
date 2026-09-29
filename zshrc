@@ -163,11 +163,8 @@ eval "$(direnv hook zsh)"
 
 source <(fzf --zsh)
 
-# MSI Coder devbox: ~/.kube/config is regenerated on every start, so contexts the
-# platform doesn't ship (falcon-satx-ca, *-staging) live in a side file.
-if [[ -n "$CODER_WORKSPACE_NAME" && -f "$HOME/.kube/extra-contexts.yaml" ]]; then
-  export KUBECONFIG="$HOME/.kube/config:$HOME/.kube/extra-contexts.yaml"
-fi
+# MSI Coder devbox: KUBECONFIG (with the extra-contexts side file) is set in
+# shell/coder-env.sh, sourced from ~/.zshenv so non-interactive zsh gets it too.
 
 # Load secrets (API tokens, etc.) — not tracked in dotfiles
 [ -f ~/.secrets.zsh ] && source ~/.secrets.zsh

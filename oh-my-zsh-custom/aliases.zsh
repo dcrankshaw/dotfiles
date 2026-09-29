@@ -180,7 +180,7 @@ yolo-worktree() {
       local path_file rc
       path_file="$(mktemp)"
       YOLO_WORKTREE_PATH_FILE="$path_file" \
-        "$HOME/yolo/user_scripts/dancrankshaw/devtools/create-worktree.sh" "$@"
+        "$HOME/dotfiles/bin/create-worktree.sh" "$@"
       rc=$?
       if [[ $rc -eq 0 && -s "$path_file" ]]; then
         cd "$(<"$path_file")" || rc=1

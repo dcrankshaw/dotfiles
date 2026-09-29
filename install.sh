@@ -65,6 +65,22 @@ if [[ \$- == *i* ]] && [ -t 1 ] && [ -z "\${BASH_EXECUTION_STRING:-}" ] \\
 fi
 EOF
     fi
+
+    # Shared env (e.g. KUBECONFIG) for every bash and zsh, interactive or not. Prepend to
+    # ~/.bashrc so it runs before any "non-interactive? return" guard in a stock bashrc.
+    ENV_MARKER="# dotfiles: shared shell environment"
+    ENV_HOOK="[ -f \"$DOTFILES_DIR/shell/coder-env.sh\" ] && . \"$DOTFILES_DIR/shell/coder-env.sh\""
+    if ! grep -qF "$ENV_MARKER" "$HOME/.bashrc" 2>/dev/null; then
+        echo "Adding shared env hook to top of ~/.bashrc..."
+        BASHRC_TMP="$(mktemp)"
+        { printf '%s\n%s\n\n' "$ENV_MARKER" "$ENV_HOOK"; cat "$HOME/.bashrc" 2>/dev/null || true; } > "$BASHRC_TMP"
+        cat "$BASHRC_TMP" > "$HOME/.bashrc"
+        rm -f "$BASHRC_TMP"
+    fi
+    if ! grep -qF "$ENV_MARKER" "$HOME/.zshenv" 2>/dev/null; then
+        echo "Adding shared env hook to ~/.zshenv..."
+        printf '\n%s\n%s\n' "$ENV_MARKER" "$ENV_HOOK" >> "$HOME/.zshenv"
+    fi
     echo ""
 fi
 
