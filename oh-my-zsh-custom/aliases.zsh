@@ -189,6 +189,20 @@ yolo-worktree() {
       return $rc
 }
 
+# Open a Coder-devbox worktree in VS Code. On the laptop this goes through Remote-SSH
+# (host alias `devbox`); in a VS Code terminal on the box, `code` opens a laptop window.
+ycode() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: ycode <worktree-name>"
+    return 1
+  fi
+  if [[ -n "$CODER_WORKSPACE_NAME" ]]; then
+    code "$HOME/yolo-worktrees/$1"
+  else
+    code --remote ssh-remote+devbox "/home/coder/yolo-worktrees/$1"
+  fi
+}
+
 # If you currently have: alias mai-claude="~/mai-agents/claude.sh --model opus"
 # remove it first (harmless if it doesn't exist)
 unalias mai-claude 2>/dev/null
