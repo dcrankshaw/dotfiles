@@ -220,6 +220,19 @@ _iterm_tab_reset() {
   printf '\033]6;1;bg;*;default\a'
 }
 
+# Make devbox SSH sessions visually distinct, then restore the normal tab color.
+ssh() {
+  if [[ "$TERM_PROGRAM" == "iTerm.app" && "$1" == "devbox" ]]; then
+    _iterm_tab_rgb 0 180 170
+    command ssh "$@"
+    local rc=$?
+    _iterm_tab_reset
+    return $rc
+  fi
+
+  command ssh "$@"
+}
+
 # Wrapper: tab orange while running, reset afterward. macOS only: mai-agents/Claude
 # isn't available on the devbox, and on Linux this would shadow the C compiler.
 if [[ $OSTYPE == darwin* ]]; then
