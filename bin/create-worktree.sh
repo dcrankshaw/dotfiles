@@ -2,13 +2,15 @@
 #
 # create-worktree.sh - Automate yolo git worktree setup with uv venv and VSCode configuration
 #
-# Usage: create-worktree.sh <worktree-name> [--branch <branch>] [--new-branch] [--open]
+# Usage: create-worktree.sh <worktree-name> [--branch <branch> | --remote-branch <branch>] [--new-branch] [--open]
 #
 # Arguments:
 #   <worktree-name>     Required. Name for the worktree directory
 #   --branch <branch>   Existing local branch to checkout (required without --new-branch),
 #                       or base branch for the new branch (default origin/main)
-#   --new-branch        Create a new branch named ${YOLO_USER:-$USER}/<worktree-name> based on --branch (or origin/main)
+#   --remote-branch <branch>
+#                       Fetch this branch from origin and use it as the base for a new branch
+#   --new-branch        Create a new branch named ${YOLO_USER:-$USER}/<worktree-name> from the selected base
 #   --open              Optional. Open VSCode after setup
 #
 # Environment Variables:
@@ -35,7 +37,7 @@ log_error() { echo -e "${RED}[ERROR]${NC} $1" >&2; }
 
 usage() {
     cat <<EOF
-Usage: $(basename "$0") <worktree-name> [--branch <branch>] [--new-branch] [--open]
+Usage: $(basename "$0") <worktree-name> [--branch <branch> | --remote-branch <branch>] [--new-branch] [--open]
 
 Create a yolo git worktree with uv venv and VSCode configuration.
 
@@ -43,6 +45,9 @@ Arguments:
     <worktree-name>     Name for the worktree directory (e.g., my-feature)
     --branch <branch>   Existing local branch to checkout (required unless --new-branch),
                         or the base branch when using --new-branch (default: origin/main)
+    --remote-branch <branch>
+                        Fetch this branch from origin and create a new branch from it
+                        (implies --new-branch)
     --new-branch        Create a new branch named \${YOLO_USER:-\$USER}/<worktree-name> (recommended for new work)
     --open              Open VSCode after setup
 
@@ -56,6 +61,7 @@ Environment Variables:
 Examples:
     $(basename "$0") my-feature --new-branch              # Create new branch '\${YOLO_USER:-\$USER}/my-feature' from origin/main
     $(basename "$0") my-feature --new-branch --branch dev # Create new branch '\${YOLO_USER:-\$USER}/my-feature' from dev
+    $(basename "$0") my-feature --remote-branch user/topic # Fetch origin/user/topic and create a new branch from it
     $(basename "$0") bugfix --branch fix/issue-123        # Checkout existing branch
     $(basename "$0") experiment --new-branch --open       # Create new branch and open VSCode
 EOF
@@ -148,6 +154,7 @@ detect_python_path() {
 main() {
     local worktree_name=""
     local branch=""
+    local remote_branch=""
     local new_branch=false
     local open_vscode=false
     # $USER is `coder` on the MSI devbox, so prefer the explicit alias.
@@ -162,6 +169,14 @@ main() {
                     usage
                 fi
                 branch="$2"
+                shift 2
+                ;;
+            --remote-branch)
+                if [[ -z "${2:-}" ]]; then
+                    log_error "--remote-branch requires a value"
+                    usage
+                fi
+                remote_branch="$2"
                 shift 2
                 ;;
             --new-branch)
@@ -202,12 +217,19 @@ main() {
         exit 1
     fi
 
+    if [[ -n "$branch" && -n "$remote_branch" ]]; then
+        log_error "--branch and --remote-branch are mutually exclusive"
+        exit 1
+    fi
+
     # Resolve the branch default. Only --new-branch may default to a remote-tracking
     # ref; checking one out directly would produce a detached worktree.
-    if $new_branch; then
+    if [[ -n "$remote_branch" ]]; then
+        new_branch=true
+    elif $new_branch; then
         branch="${branch:-origin/main}"
     elif [[ -z "$branch" ]]; then
-        log_error "--branch <local-branch> is required unless --new-branch is used"
+        log_error "--branch <local-branch>, --remote-branch <branch>, or --new-branch is required"
         usage
     fi
 
@@ -248,6 +270,18 @@ main() {
 
     # Create git worktree
     cd "$repo_root"
+    if [[ -n "$remote_branch" ]]; then
+        remote_branch="${remote_branch#origin/}"
+        if ! git check-ref-format --branch "$remote_branch" >/dev/null 2>&1; then
+            log_error "Invalid remote branch: '$remote_branch'"
+            exit 1
+        fi
+
+        log_info "Fetching remote branch 'origin/$remote_branch'"
+        git fetch origin "+refs/heads/$remote_branch:refs/remotes/origin/$remote_branch"
+        branch="origin/$remote_branch"
+    fi
+
     if $new_branch; then
         local branch_name="${branch_owner}/${worktree_name}"
         log_info "Creating new branch '$branch_name' from '$branch'"
